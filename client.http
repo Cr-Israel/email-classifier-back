@@ -1,0 +1,15 @@
+@host = localhost
+@port = 8000
+@baseUrl = http://localhost:8000
+
+# @name test
+GET {{baseUrl}} HTTP/1.1
+
+###
+# @name process_email
+POST {{baseUrl}}/process_email HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "Olá! Quero agendar uma reunião com você, atenciosamente Carlo Israel."
+}
