@@ -1,25 +1,32 @@
-from fastapi import APIRouter
+import os
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from pydantic import BaseModel
 from utils.nlp import preprocess_text
 from llm import generate_response
 
+from werkzeug.utils import secure_filename
+from PyPDF2 import PdfReader
+
 email_router = APIRouter()
 
-class EmailInput(BaseModel):
-    text: str
+# class EmailInput(BaseModel):
+#     text: str
 
-# email = """
-#   Olá! Espero que está mensagem lhe encontre bem.
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-#   Por meio deste e-mail, faço uma solicitação de suporte técnico em minha unidade escolar.
+ALLOWED_EXTENSIONS = {"txt", "pdf"}
 
-#   Fico no aguardo do seu retorno, obrigado.
-  
-#   Atenciosamente, Carlos Israel!
-# """
+def allowed_file(filename):
+  return '.' in filename and \
+          filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @email_router.post('/process_email')
-async def process_email(data: EmailInput):
+async def process_email(
+    text: str = Form(None), 
+    file: UploadFile = File(None)
+):
   email_process = preprocess_text(data.text)
 
   prompt = f"""
