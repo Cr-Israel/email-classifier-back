@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from nlp import preprocess_text
+from utils.nlp import preprocess_text
 
 email_router = APIRouter()
 
