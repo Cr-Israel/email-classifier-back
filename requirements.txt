@@ -1,7 +1,6 @@
 fastapi
 uvicorn
 python-dotenv
-openai
 langchain==0.3.27
 langchain-openai==0.3.33
 langchain-huggingface
@@ -10,4 +9,4 @@ nltk
 inflect
 werkzeug
 PyPDF2
-
+python-multipart
